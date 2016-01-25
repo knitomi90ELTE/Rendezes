@@ -31,7 +31,14 @@ void merge1(std::vector<T>& A, std::vector<T>& B, int u, int v);
 template <typename T>
 void mergeSort(std::vector<T>& A);
 
+template <typename T>
+int cut(std::vector<T>& A, int p, int r);
+
+template <typename T>
+void quickSort(std::vector<T>& A, int p, int r);
+
 int main() {
+    std::vector<int> A = {8,2,3,11,4,5,9,7,1,6,10};
     //std::vector<int> t = {3, 8, 7, 4, 6, 1, 9, 0, 2, 5};
     //std::cout << "Bubble sort" << std::endl;
     //bubbleSort(t);
@@ -39,9 +46,10 @@ int main() {
     //insertSort(t);
     //std::cout << "Bubble sort" << std::endl;
     //maxKivSort(t);
-    std::cout << "Merge sort" << std::endl;
-    std::vector<int> A = {8,2,3,11,4,5,9,7,1,6,10};
-    mergeSort(A);
+    //std::cout << "Merge sort" << std::endl;
+    //mergeSort(A);
+    std::cout << "Quick sort" << std::endl;
+    quickSort(A, 0, A.size());
 
     return 0;
 }
@@ -164,4 +172,35 @@ void mergeSort(std::vector<T>& A){
     int newSize = (A.size() / 2) - 1;
     std::vector<T> B(newSize, T());
     merge1(A, B, 0, A.size());
+}
+
+template <typename T>
+int cut(std::vector<T>& A, int p, int r){
+    T x = A[r];
+    int i = p;
+    while(i < r && A[i] < x){ ++i; }
+    if(i < r){
+        int j = i+1;
+        while(j < r){
+            if(A[j] < x){
+                csere(A[i], A[j]);
+                ++i;
+            }
+            ++j;
+        }
+        A[r] = A[i];
+        A[i] = x;
+    }
+    return i;
+}
+
+template <typename T>
+void quickSort(std::vector<T>& A, int p, int r){
+    if(p < r){
+        int q = cut(A, p, r);
+        printStructure(A);
+        quickSort(A, p, q-1);
+        p = q+1;
+
+    }
 }
